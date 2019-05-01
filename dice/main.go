@@ -1,8 +1,8 @@
 package main
 
 import (
-	r "math/rand"
 	o "dice/output"
+	r "math/rand"
 )
 
 const (
@@ -10,14 +10,14 @@ const (
 	maxValue = 6
 )
 
-func main(){
+func main() {
 	var t []int
 	t = make([]int, 11)
-	
-	s := [] int{2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
-	
-	for i:=1; i<=tryCount; i++ {
-		t[diceValue() + diceValue() - 2] ++
+
+	s := []int{2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+
+	for i := 1; i <= tryCount; i++ {
+		t[diceValue()+diceValue()-2]++
 	}
 
 	o.PrintRow(s)

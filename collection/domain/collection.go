@@ -29,6 +29,11 @@ func (c *Collection) Add(element int) {
 
 func (c *Collection) Get(index int) *Node {
 
+	if index < 0 {
+		fmt.Println("Incorrect index")
+		return nil
+	}
+
 	getPointer := c.First()
 
 	for i := 0; i < index; i++ {
@@ -40,8 +45,13 @@ func (c *Collection) Get(index int) *Node {
 
 func (c *Collection) Remove(index int) {
 
-	c.Get(index).Prev().nextPointer = c.Get(index).Next()
-	c.Get(index).Next().prevPointer = c.Get(index).Prev()
+	removePointer := c.Get(index)
+	if removePointer == nil {
+		fmt.Println("No index to remove")
+		return
+	}
+	removePointer.Prev().nextPointer = removePointer.Next()
+	removePointer.Next().prevPointer = removePointer.Prev()
 }
 
 func (c *Collection) First() *Node {
@@ -85,13 +95,18 @@ func (c Collection) Print() {
 }
 
 func (e *Node) Next() *Node {
+	if e == nil {
+		// Node does not exist
+		return nil
+	}
 	return e.nextPointer
 }
 
 func (e *Node) Prev() *Node {
 
-	if e.prevPointer == nil && e.nextPointer == nil {
-		fmt.Println("Empty collection")
+	if e == nil {
+		// Node does not exist
+		return nil
 	}
 	return e.prevPointer
 }

@@ -12,8 +12,13 @@ func main() {
 		collection.Add(i)
 	}
 
+	fmt.Println(collection.Get(-999))
+	fmt.Println(collection.Get(999))
+
 	collection.Print()
 	collection.Remove(3)
+	collection.Print()
+	collection.Remove(999)
 	collection.Print()
 
 	fmt.Println(collection.Get(7))

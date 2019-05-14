@@ -1,4 +1,4 @@
-package domain
+package bots
 
 type Bot interface {
 	SayHello() string

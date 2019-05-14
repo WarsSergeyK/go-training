@@ -1,8 +1,10 @@
 package main
 
 import (
-	"botagent/domain"
+	"botagent/bots"
+	"errors"
 	"fmt"
+	"os"
 )
 
 func main() {
@@ -12,20 +14,22 @@ func main() {
 	var language string
 	_, err := fmt.Scanln(&language)
 	if err != nil {
-		fmt.Println("Alarma!!!")
+		fmt.Println("Error:", err)
+		os.Exit(1)
 	}
 
-	bot := createBot(language)
-	if bot == nil {
-		fmt.Println("Unknown language!!!")
-		return
+	bot, err := createBot(language)
+	if err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(1)
 	}
 
 	answer := 0
 	for {
 		_, err := fmt.Scanln(&answer)
 		if err != nil {
-			fmt.Println("Alarma!!!")
+			fmt.Println("Error:", err)
+			os.Exit(1)
 		}
 
 		switch answer {
@@ -41,22 +45,22 @@ func main() {
 			fmt.Println(bot.SayBye())
 			return
 		default:
-			fmt.Println("Unknown command")
+			fmt.Println(bots.CommandErrorText)
 		}
 	}
 }
 
-func createBot(language string) domain.Bot {
+func createBot(language string) (bots.Bot, error) {
 
-	var b domain.Bot
+	var b bots.Bot
 
 	switch language {
 	case "English":
-		b = domain.BotEnglish{Name: "John"}
+		b = bots.BotEnglish{Name: "John"}
 	case "Russian":
-		b = domain.BotRussian{Name: "Иван"}
-		// default:
-		// "Unknown language"
+		b = bots.BotRussian{Name: "Иван"}
+	default:
+		return b, errors.New(bots.LanguageErrorText)
 	}
-	return b
+	return b, nil
 }

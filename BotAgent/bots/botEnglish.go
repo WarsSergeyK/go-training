@@ -33,3 +33,25 @@ func (be BotEnglish) SayWeekday() string {
 func (be BotEnglish) SayBye() string {
 	return "Bye"
 }
+
+func (br BotEnglish) ParseUserFrase(s string) (string, bool) {
+	isExit := false
+	response := ""
+
+	switch s {
+	case "Hi":
+		response = br.SayHello()
+	case "Time":
+		response = br.SayTime()
+	case "Date":
+		response = br.SayDate()
+	case "Weekday":
+		response = br.SayWeekday()
+	case "Bye":
+		isExit = true
+		response = br.SayBye()
+	default:
+		response = CommandErrorText
+	}
+	return response, isExit
+}

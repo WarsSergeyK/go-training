@@ -6,4 +6,5 @@ type Bot interface {
 	SayDate() string
 	SayWeekday() string
 	SayBye() string
+	ParseUserFrase(string) (string, bool)
 }

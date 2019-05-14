@@ -24,7 +24,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	answer := 0
+	answer := ""
 	for {
 		_, err := fmt.Scanln(&answer)
 		if err != nil {
@@ -32,20 +32,10 @@ func main() {
 			os.Exit(1)
 		}
 
-		switch answer {
-		case 1:
-			fmt.Println(bot.SayHello())
-		case 2:
-			fmt.Println(bot.SayTime())
-		case 3:
-			fmt.Println(bot.SayDate())
-		case 4:
-			fmt.Println(bot.SayWeekday())
-		case 5:
-			fmt.Println(bot.SayBye())
+		a, isExit := bot.ParseUserFrase(answer)
+		fmt.Println(a)
+		if isExit {
 			return
-		default:
-			fmt.Println(bots.CommandErrorText)
 		}
 	}
 }

@@ -1,35 +1,45 @@
 package weathers
 
-import "errors"
+import (
+	"errors"
+	"math"
+)
+
+const (
+	circleDegrees = 360.0
+	sectorsTotal  = 16
+)
 
 func сonvertWind(d float64) (string, error) {
 
+	sector := math.Floor(d / circleDegrees * sectorsTotal)
+
 	switch {
-	case d >= 337.5 && d <= 22.5:
+	case sector < 1 || sector > 15:
 		return "северный", nil //"N"
 
-	case d > 22.5 && d < 67.5:
+	case sector <= 3:
 		return "северо-восточный", nil //"NE"
 
-	case d >= 67.5 && d <= 112.5:
+	case sector <= 5:
 		return "восточный", nil //"E"
 
-	case d > 112.5 && d < 157.5:
+	case sector <= 7:
 		return "юго-восточный", nil //"SE"
 
-	case d >= 157.5 && d <= 202.5:
+	case sector <= 9:
 		return "южный", nil //"S"
 
-	case d > 202.5 && d < 247.5:
+	case sector <= 11:
 		return "юго-западный", nil //"SW"
 
-	case d >= 247.5 && d <= 292.5:
+	case sector <= 13:
 		return "западный", nil //"W"
 
-	case d > 292.5 && d < 337.5:
+	case sector <= 15:
 		return "северо-западный", nil //"NW"
 
 	default:
-		return "неопределенный", errors.New("Cannot detect the wind direction")
+		return "неопределенный", errors.New("Cannot parse the wind direction")
 	}
 }

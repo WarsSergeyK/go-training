@@ -3,30 +3,30 @@ package weathers
 import "fmt"
 
 type Weather struct {
-	Main     MainJSON
-	Weather  []WeatherJSON
-	Sys      SysJSON
-	Wind     WindJSON
-	CityName string `json:"name"`
-	Message  string
+	Main        Main
+	WeatherCond []WeatherCond `json:"weather"`
+	Sys         Sys
+	Wind        Wind
+	CityName    string `json:"name"`
+	Message     string
 }
 
-type WeatherJSON struct {
+type WeatherCond struct {
 	Description string `json:"description"`
 }
 
-type MainJSON struct {
+type Main struct {
 	Temperature float64 `json:"temp"`
 	Humidity    int
 }
 
-type WindJSON struct {
+type Wind struct {
 	WindSpeed     float64 `json:"speed"`
 	WindDirection float64 `json:"deg"`
 	WindGust      float64 `json:"gust,omitempty"`
 }
 
-type SysJSON struct {
+type Sys struct {
 	Sunrise int64
 	Sunset  int64
 }
@@ -36,7 +36,7 @@ func (w Weather) GetTemperature() (temp float64) {
 }
 
 func (w Weather) GetCloudiness() (description string) {
-	return w.Weather[0].Description
+	return w.WeatherCond[0].Description
 }
 
 func (w Weather) GetHumidity() (humidity int) {

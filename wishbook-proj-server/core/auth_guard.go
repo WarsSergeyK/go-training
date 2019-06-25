@@ -14,8 +14,8 @@ const (
 
 // AuthGuard is the interface that keeps user's access checking
 type AuthGuard interface {
-	IsAuthorized(login string, role domain.UserRole) bool
-	IsLoggedIn(login string) bool
+	IsAuthorized(userID string, role domain.UserRole) bool
+	IsLoggedIn(userID string) bool
 	IsPasswordCorrect(login string, passwordHash string) bool
 	IsLoginAvailable(login string) bool
 }
@@ -85,7 +85,7 @@ func (g *authGuard) IsLoginAvailable(login string) bool {
 
 	user, err := g.usersRepository.GetUserByLogin(ctx, login)
 	if err != nil {
-		return true
+		return false
 	}
 
 	return user.ID == ""

@@ -2,7 +2,6 @@ package mocks
 
 import (
 	"context"
-	"fmt"
 
 	"wishbook/domain"
 
@@ -22,7 +21,6 @@ func (mock *UserRepositoryMock) InsertUser(ctx context.Context, user domain.User
 // GetUserByID getting user structure by ID
 func (mock *UserRepositoryMock) GetUserByID(ctx context.Context, id string) (userResult domain.User, err error) {
 	args := mock.Called(id)
-	fmt.Println(args)
 	return args.Get(0).(domain.User), args.Error(1)
 }
 
@@ -34,7 +32,6 @@ func (mock *UserRepositoryMock) GetAllUsers(ctx context.Context) (usersResults [
 // GetUserByLogin getting user structure by Login
 func (mock *UserRepositoryMock) GetUserByLogin(ctx context.Context, login string) (userResult domain.User, err error) {
 	args := mock.Called(login)
-	fmt.Println(args)
 	return args.Get(0).(domain.User), args.Error(1)
 }
 

@@ -36,7 +36,8 @@ func (h *guestHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var u domain.User
 	err := json.NewDecoder(r.Body).Decode(&u)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
 

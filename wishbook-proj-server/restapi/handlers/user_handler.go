@@ -56,7 +56,7 @@ func (h *userHandler) GetCurrentUser(w http.ResponseWriter, r *http.Request) {
 
 		JSON, err := json.MarshalIndent(fu, "", "\t")
 		if err != nil {
-			fmt.Println("error:", err)
+			log.Printf("error: %v\n", err)
 			http.Error(w, "internal error", http.StatusInternalServerError)
 			return
 		}
@@ -77,13 +77,16 @@ func (h *userHandler) UpdateCurrentUser(w http.ResponseWriter, r *http.Request) 
 
 	err := json.NewDecoder(r.Body).Decode(&u)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
 
 	updated, err := ur.UpdateUser(ctx, u)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Printf("Updated %v documents\n", updated)
@@ -98,12 +101,16 @@ func (h *userHandler) GetAllWishes(w http.ResponseWriter, r *http.Request) {
 
 	allWishes, err := ur.GetAllActualWishes(ctx)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
+		return
 	}
 
 	JSON, err := json.MarshalIndent(allWishes, "", "\t")
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
+		return
 	}
 	fmt.Fprintln(w, string(JSON))
 }
@@ -128,12 +135,14 @@ func (h *userHandler) GetWish(w http.ResponseWriter, r *http.Request) {
 
 		JSON, err := json.MarshalIndent(fu, "", "\t")
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("error: %v\n", err)
+			http.Error(w, "internal error", http.StatusInternalServerError)
+			return
 		}
 
 		fmt.Fprintln(w, string(JSON))
 	} else {
-		fmt.Printf("Nothing found\n")
+		fmt.Println("Nothing found")
 		http.Error(w, "404 page not found", http.StatusNotFound)
 	}
 }
@@ -148,13 +157,16 @@ func (h *userHandler) AddWish(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&u)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
 
 	id, err := ur.InsertWish(ctx, u)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Println("Inserted a single document:", id)
@@ -179,13 +191,16 @@ func (h *userHandler) UpdateWish(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&u)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
 
 	updated, err := ur.UpdateWish(ctx, u)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Printf("Updated %v documents\n", updated)
@@ -211,7 +226,7 @@ func (h *userHandler) RemoveWish(w http.ResponseWriter, r *http.Request) {
 
 	deleted, err := ur.RemoveWishByID(ctx, id)
 	if err != nil {
-		fmt.Println("error:", err)
+		fmt.Printf("error: %v\n", err)
 		http.Error(w, "406 not acceptable", http.StatusNotAcceptable)
 		return
 	}

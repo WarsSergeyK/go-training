@@ -43,13 +43,15 @@ func (h *adminHandler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 
 	allUsers, err := ur.GetAllUsers(ctx)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
 
 	JSON, err := json.MarshalIndent(allUsers, "", "\t")
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
 
@@ -76,7 +78,9 @@ func (h *adminHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 
 		JSON, err := json.MarshalIndent(fu, "", "\t")
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("error: %v\n", err)
+			http.Error(w, "internal error", http.StatusInternalServerError)
+			return
 		}
 
 		fmt.Fprintln(w, string(JSON))
@@ -96,7 +100,8 @@ func (h *adminHandler) AddUser(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&u)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
 
@@ -109,7 +114,9 @@ func (h *adminHandler) AddUser(w http.ResponseWriter, r *http.Request) {
 
 	id, err := ur.InsertUser(ctx, u)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Println("Inserted a single document:", id)
@@ -133,13 +140,15 @@ func (h *adminHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&u)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
 
 	updated, err := ur.UpdateUser(ctx, u)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("error: %v\n", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
 

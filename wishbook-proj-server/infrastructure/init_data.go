@@ -22,7 +22,7 @@ func init() {
 
 	user, err := g.GetUserByLogin(ctx, adminLogin)
 	if err != nil {
-		log.Println(err)
+		log.Printf("error: %v\n", err)
 	}
 
 	if user.ID == "" {
@@ -34,7 +34,7 @@ func init() {
 
 		_, err := g.InsertUser(ctx, u)
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("error: %v\n", err)
 			return
 		}
 	}
